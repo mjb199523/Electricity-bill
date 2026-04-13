@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity Bill Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+            </div>
+            <h1>Electricity Bill Calculator</h1>
+        </header>
+
+        <main class="main-content">
+            <form id="billForm" class="form">
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="tenantName">Tenant Name</label>
+                    <input type="text" id="tenantName" name="tenantName" placeholder="Enter tenant name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastReading">Last Month Reading (M1)</label>
+                    <input type="number" id="lastReading" name="lastReading" placeholder="Enter last month reading" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="currentReading">Current Month Reading (M2)</label>
+                    <input type="number" id="currentReading" name="currentReading" placeholder="Enter current month reading" min="0" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Calculate Bill</button>
+            </form>
+
+            <div id="resultSection" class="result-section hidden">
+                <button type="button" id="closeBtn" class="close-btn" title="Clear and start over">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+                <h2>Bill Summary</h2>
+                
+                <div class="result-card">
+                    <div class="result-item">
+                        <span class="result-label">Electricity Cost</span>
+                        <span class="result-value" id="electricityCost">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Fixed Charge (Water)</span>
+                        <span class="result-value">₹200</span>
+                    </div>
+                    <div class="result-item total">
+                        <span class="result-label">Total Bill Amount</span>
+                        <span class="result-value" id="totalBill">₹0</span>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button type="button" id="downloadPdf" class="btn btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download PDF
+                    </button>
+                    <button type="button" id="whatsappShare" class="btn btn-whatsapp">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12.04 2C17.13 2 21.08 5.95 21.14 11.02L21.23 11.72C21.57 15.44 18.81 18.65 15.1 18.95L15.53 21.58C15.24 22.57 14.39 23.25 13.35 23.25C12.3 23.25 11.45 22.57 11.16 21.58L11.59 18.95C7.88 18.65 5.12 15.43 5.46 11.72L5.55 11.02C5.61 5.95 9.56 2 12.04 2ZM7.54 13.43L8.72 12.25C9.16 11.81 9.92 11.81 10.36 12.25L11.2 13.09C11.64 13.53 11.64 14.29 11.2 14.73L10.02 15.91C9.58 16.35 8.82 16.35 8.38 15.91L7.54 15.07C7.1 14.63 7.1 13.87 7.54 13.43ZM12.04 4C8.31 4 5.3 6.67 4.89 10.45L4.81 11.11C4.51 14.41 6.96 17.13 10.26 17.63L10.67 17.64C13.2 17.64 15.34 15.8 15.73 13.28L15.8 12.58C15.94 10.33 14.19 8.44 11.93 8.44C11.24 8.44 10.6 8.7 10.11 9.13L8.69 10.55C8.23 11.01 8.23 11.78 8.69 12.24L9.55 13.1C9.73 13.28 9.99 13.38 10.25 13.38C10.51 13.38 10.77 13.28 10.95 13.1L12.37 11.68C12.81 11.24 13.58 11.24 14.02 11.68L16.03 13.69C17.45 12.06 18.14 9.96 17.96 7.87C17.76 5.21 15.56 3 12.9 3C12.67 3 12.44 3.01 12.21 3.02L12.04 4Z"/>
+                        </svg>
+                        Share on WhatsApp
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Electricity Bill Calculator &copy; 2026</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

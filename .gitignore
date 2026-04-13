@@ -1,0 +1,10 @@
+node_modules/
+android/
+www/
+android_app/
+bill-calculator.zip
+ANDROID_APP_GUIDE.md
+BUILD_APK.md
+package-lock.json
+package.json
+capacitor.config.json
