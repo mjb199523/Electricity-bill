@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
             '\nDate: ' + currentBillData.formattedDate +
             '\n----------------------------------------' +
             '\nElectricity Cost: Rs.' + currentBillData.electricityCost +
-            '\nFixed Charge: Rs.200' +
+            '\nFixed Charge (Water): Rs.200' +
             '\n----------------------------------------' +
             '\nTOTAL: Rs.' + currentBillData.totalBill +
             '\n----------------------------------------';
